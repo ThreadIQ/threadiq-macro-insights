@@ -29,4 +29,4 @@ USER appuser
 ENTRYPOINT ["/app/docker/entrypoint.sh"]
 
 # default CMD = web; App Platform overrides for worker/beat
-CMD ["gunicorn", "core.asgi:application", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8080"]
+CMD ["gunicorn", "backend.core.asgi:application", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8080"]

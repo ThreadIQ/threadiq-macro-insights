@@ -37,7 +37,8 @@ jobs:
           context: .
           push: true
           tags: |
-            pr
+            ${{ env.IMAGE }}:pr
+            ${{ env.IMAGE }}:main
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -47,6 +48,6 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           app-name: threadiq-macro-insights-prod
           images: |
-            web=${{ env.IMAGE }}:${{ github.sha }}
-            worker=${{ env.IMAGE }}:${{ github.sha }}
-            beat=${{ env.IMAGE }}:${{ github.sha }}
+            web=${{ env.IMAGE }}:main
+            worker=${{ env.IMAGE }}:main
+            beat=${{ env.IMAGE }}:main

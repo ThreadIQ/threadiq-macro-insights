@@ -15,6 +15,8 @@ jobs:
 
     env:
       IMAGE_NAME: threadiq-macro-insights-prod
+      REGISTRY: ghcr.io
+      IMAGE: ${{ env.REGISTRY }}/${{ github.repository_owner }}/threadiq-macro-insights
 
     steps:
       - name: Checkout code
@@ -30,20 +32,27 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
       - name: Build and push Docker image to GHCR
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: |
-            ghcr.io/threadiq-macro-insights:pr
-          # optional: cache
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      # IMPORTANT: DigitalOcean must be able to pull this image.
-      # Ensure the GHCR package visibility is PUBLIC (in repo → Packages → settings),
-      # OR use DO App build from GitHub instead of images, OR switch to DOCR.
 
       - name: Deploy to DigitalOcean App Platform
         uses: digitalocean/app_action/deploy@v2
@@ -51,6 +60,6 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           app-name: threadiq-macro-insights-prod
           images: |
-            web=${{ env.IMAGE }}
-            worker=${{ env.IMAGE }}
-            beat=${{ env.IMAGE }}
+            web=${{ env.IMAGE }}:${{ github.sha }}
+            worker=${{ env.IMAGE }}:${{ github.sha }}
+            beat=${{ env.IMAGE }}:${{ github.sha }}

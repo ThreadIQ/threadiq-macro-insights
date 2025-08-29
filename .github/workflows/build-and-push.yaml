@@ -46,7 +46,7 @@ jobs:
       # OR use DO App build from GitHub instead of images, OR switch to DOCR.
 
       - name: Deploy to DigitalOcean App Platform
-        uses: digitalocean/app-action@v2
+        uses: digitalocean/app_action/deploy@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           app-name: threadiq-macro-insights-prod

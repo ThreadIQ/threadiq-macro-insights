@@ -15,7 +15,7 @@ jobs:
 
     env:
       IMAGE_NAME: threadiq-macro-insights-prod
-      IMAGE: ghcr.io/${{ github.repository_owner }}/threadiq-macro-insights
+      IMAGE: ghcr.io/threadiq/threadiq-macro-insights
 
     steps:
       - name: Checkout code
@@ -31,25 +31,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.IMAGE }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha
-
       - name: Build and push Docker image to GHCR
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            ${{ env.IMAGE }}:pr
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

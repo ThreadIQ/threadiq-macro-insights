@@ -36,7 +36,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:pr
+            ghcr.io/threadiq-macro-insights:pr
           # optional: cache
           cache-from: type=gha
           cache-to: type=gha,mode=max

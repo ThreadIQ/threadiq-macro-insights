@@ -21,7 +21,8 @@ envs:
   value: PGPASSWORD
 - key: REDIS_URL
   scope: RUN_AND_BUILD_TIME
-  value: "redis://redis-nyc3-12345-do-user-22402719-0.j.db.ondigitalocean.com:25061/0"
+  type: SECRET
+  value: REDIS_URL
 - key: DEBUG
   scope: RUN_AND_BUILD_TIME
   value: "false"

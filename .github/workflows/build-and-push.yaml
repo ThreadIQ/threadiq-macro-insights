@@ -51,6 +51,3 @@ jobs:
             web=${{ env.IMAGE }}:main
             worker=${{ env.IMAGE }}:main
             beat=${{ env.IMAGE }}:main
-          envs: |
-            PGPASSWORD=${{ secrets.PGPASSWORD }}
-            SECRET_KEY=${{ secrets.SECRET_KEY }}

@@ -54,3 +54,4 @@ jobs:
           envs: |
             PGPASSWORD=${{ secrets.PGPASSWORD }}
             SECRET_KEY=${{ secrets.SECRET_KEY }}
+            REDIS_URL=${{ secrets.REDIS_URL }}

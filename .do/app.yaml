@@ -21,7 +21,6 @@ envs:
   value: ${PGPASSWORD}
 - key: REDIS_URL
   scope: RUN_AND_BUILD_TIME
-  type: SECRET
   value: ${REDIS_URL}
 - key: DEBUG
   scope: RUN_AND_BUILD_TIME
@@ -30,6 +29,12 @@ envs:
   scope: RUN_AND_BUILD_TIME
   type: SECRET
   value: ${SECRET_KEY}
+- key: CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP
+  scope: RUN_AND_BUILD_TIME
+  value: "true"
+- key: CELERY_BROKER_CONNECTION_MAX_RETRIES
+  scope: RUN_AND_BUILD_TIME
+  value: "10"
 
 features:
 - buildpack-stack=ubuntu-22
@@ -69,7 +74,7 @@ workers:
   instance_count: 1
   instance_size_slug: apps-s-1vcpu-1gb
   name: worker
-  run_command: bash -c "cd backend && celery -A core worker -l info -Q default,ingest,analyze,email --autoscale=12,2"
+  run_command: bash -c "cd backend && celery -A core worker -l debug -Q default,ingest,analyze,email --autoscale=12,2 --without-heartbeat"
 
 # Beat service
 - image:

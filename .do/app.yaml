@@ -75,7 +75,7 @@ workers:
   instance_count: 1
   instance_size_slug: apps-s-1vcpu-1gb
   name: worker
-  run_command: bash -c "cd backend && celery -A core worker -l debug -Q default,ingest,analyze,email --autoscale=12,2 --without-heartbeat"
+  run_command: bash -c "cd backend && echo 'REDIS_URL: $REDIS_URL' && celery -A core worker -l debug -Q default,ingest,analyze,email --autoscale=12,2 --without-heartbeat"
 
 # Beat service
 - image:

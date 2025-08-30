@@ -35,6 +35,13 @@ DATABASES = {
 
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
+# Debug Redis URL (remove this in production)
+print(f"REDIS_URL: {REDIS_URL}")
+
+# Validate Redis URL format
+if REDIS_URL and not REDIS_URL.startswith(('redis://', 'rediss://')):
+    raise ValueError(f"Invalid Redis URL format: {REDIS_URL}")
+
 CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = REDIS_URL
 CELERY_TASK_ACKS_LATE = True

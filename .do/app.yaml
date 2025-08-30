@@ -1,0 +1,81 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+
+envs:
+- key: PGHOST
+  scope: RUN_AND_BUILD_TIME
+  value: ${PGHOST}
+- key: PGPORT
+  scope: RUN_AND_BUILD_TIME
+  value: "25060"
+- key: PGDATABASE
+  scope: RUN_AND_BUILD_TIME
+  value: threadiq
+- key: PGUSER
+  scope: RUN_AND_BUILD_TIME
+  value: threadiq
+- key: PGPASSWORD
+  scope: RUN_AND_BUILD_TIME
+  value: ${PGPASSWORD}
+- key: REDIS_URL
+  scope: RUN_AND_BUILD_TIME
+  value: redis://redis-nyc3-12345-do-user-22402719-0.j.db.ondigitalocean.com:25061/0
+- key: DEBUG
+  scope: RUN_AND_BUILD_TIME
+  value: "false"
+- key: SECRET_KEY
+  scope: RUN_AND_BUILD_TIME
+  value: ${SECRET_KEY}
+
+features:
+- buildpack-stack=ubuntu-22
+
+ingress:
+  rules:
+  - component:
+      name: web
+    match:
+      path:
+        prefix: "/"
+
+name: threadiq-macro-insights-prod
+region: nyc
+
+services:
+- http_port: 8080
+  image:
+    registry: threadiq
+    registry_credentials: EV[1:sJBqc81XZsVoESF26Ein/GyFOKExfe0i:sWdFC45bE2vmIlgZ/lIt1y3pZfDexceUkliYh5hIVg2u4wrYtaR128gyu3FXqyCorDE1uBK22cnOj7Dgr3s8hQ==]
+    registry_type: GHCR
+    repository: threadiq-macro-insights
+    tag: main
+  instance_count: 1
+  instance_size_slug: apps-s-1vcpu-1gb
+  name: web
+  run_command: bash -c "cd backend && gunicorn core.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080"
+
+workers:
+# Worker service
+- image:
+    registry: threadiq
+    registry_credentials: EV[1:sJBqc81XZsVoESF26Ein/GyFOKExfe0i:sWdFC45bE2vmIlgZ/lIt1y3pZfDexceUkliYh5hIVg2u4wrYtaR128gyu3FXqyCorDE1uBK22cnOj7Dgr3s8hQ==]
+    registry_type: GHCR
+    repository: threadiq-macro-insights
+    tag: main
+  instance_count: 1
+  instance_size_slug: apps-s-1vcpu-1gb
+  name: worker
+  run_command: bash -c "cd backend && celery -A core worker -l info -Q default,ingest,analyze,email --autoscale=12,2"
+
+# Beat service
+- image:
+    registry: threadiq
+    registry_credentials: EV[1:sJBqc81XZsVoESF26Ein/GyFOKExfe0i:sWdFC45bE2vmIlgZ/lIt1y3pZfDexceUkliYh5hIVg2u4wrYtaR128gyu3FXqyCorDE1uBK22cnOj7Dgr3s8hQ==]
+    registry_type: GHCR
+    repository: threadiq-macro-insights
+    tag: main
+  instance_count: 1
+  instance_size_slug: apps-s-1vcpu-1gb
+  name: beat
+  run_command: bash -c "cd backend && celery -A core beat -l info --pidfile= --schedule=/tmp/celerybeat-schedule.db"

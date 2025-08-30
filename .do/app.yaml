@@ -17,7 +17,8 @@ envs:
   value: "threadiq"
 - key: PGPASSWORD
   scope: RUN_AND_BUILD_TIME
-  value: ${PGPASSWORD}
+  type: SECRET
+  value: PGPASSWORD
 - key: REDIS_URL
   scope: RUN_AND_BUILD_TIME
   value: "redis://redis-nyc3-12345-do-user-22402719-0.j.db.ondigitalocean.com:25061/0"
@@ -26,7 +27,8 @@ envs:
   value: "false"
 - key: SECRET_KEY
   scope: RUN_AND_BUILD_TIME
-  value: ${SECRET_KEY}
+  type: SECRET
+  value: SECRET_KEY
 
 features:
 - buildpack-stack=ubuntu-22

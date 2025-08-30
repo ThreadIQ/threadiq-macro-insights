@@ -17,10 +17,7 @@ COPY . /app
 # Change ownership of the app directory to the non-root user
 RUN chown -R appuser:appuser /app
 
-# Create directories that might be created by Django/Celery and ensure they're owned by appuser
-RUN mkdir -p /app/backend/staticfiles /app/backend/static /tmp && chown -R appuser:appuser /app/backend/staticfiles /app/backend/static /tmp
-
-# entrypoint runs migrate/collectstatic then execs CMD
+# entrypoint runs migrate then execs CMD
 RUN chmod +x /app/docker/entrypoint.sh
 
 # Switch to non-root user

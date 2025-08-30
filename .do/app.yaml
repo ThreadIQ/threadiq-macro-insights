@@ -3,6 +3,32 @@ alerts:
 - rule: DOMAIN_FAILED
 
 envs:
+- key: PGHOST
+  scope: RUN_AND_BUILD_TIME
+  value: "db-postgresql-nyc3-93472-do-user-22402719-0.j.db.ondigitalocean.com"
+- key: PGPORT
+  scope: RUN_AND_BUILD_TIME
+  value: "25060"
+- key: PGDATABASE
+  scope: RUN_AND_BUILD_TIME
+  value: "threadiq"
+- key: PGUSER
+  scope: RUN_AND_BUILD_TIME
+  value: "threadiq"
+- key: PGPASSWORD
+  scope: RUN_AND_BUILD_TIME
+  type: SECRET
+  value: ${PGPASSWORD}
+- key: REDIS_URL
+  scope: RUN_AND_BUILD_TIME
+  value: ${REDIS_URL}
+- key: DEBUG
+  scope: RUN_AND_BUILD_TIME
+  value: "false"
+- key: SECRET_KEY
+  scope: RUN_AND_BUILD_TIME
+  type: SECRET
+  value: ${SECRET_KEY}
 - key: CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP
   scope: RUN_AND_BUILD_TIME
   value: "true"

@@ -18,18 +18,18 @@ envs:
 - key: PGPASSWORD
   scope: RUN_AND_BUILD_TIME
   type: SECRET
-  value: PGPASSWORD
+  value: ${PGPASSWORD}
 - key: REDIS_URL
   scope: RUN_AND_BUILD_TIME
   type: SECRET
-  value: REDIS_URL
+  value: ${REDIS_URL}
 - key: DEBUG
   scope: RUN_AND_BUILD_TIME
   value: "false"
 - key: SECRET_KEY
   scope: RUN_AND_BUILD_TIME
   type: SECRET
-  value: SECRET_KEY
+  value: ${SECRET_KEY}
 
 features:
 - buildpack-stack=ubuntu-22

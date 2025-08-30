@@ -2,32 +2,6 @@ alerts:
 - rule: DEPLOYMENT_FAILED
 - rule: DOMAIN_FAILED
 
-envs:
-- key: PGHOST
-  scope: RUN_AND_BUILD_TIME
-  value: ${PGHOST}
-- key: PGPORT
-  scope: RUN_AND_BUILD_TIME
-  value: "25060"
-- key: PGDATABASE
-  scope: RUN_AND_BUILD_TIME
-  value: threadiq
-- key: PGUSER
-  scope: RUN_AND_BUILD_TIME
-  value: threadiq
-- key: PGPASSWORD
-  scope: RUN_AND_BUILD_TIME
-  value: ${PGPASSWORD}
-- key: REDIS_URL
-  scope: RUN_AND_BUILD_TIME
-  value: redis://redis-nyc3-12345-do-user-22402719-0.j.db.ondigitalocean.com:25061/0
-- key: DEBUG
-  scope: RUN_AND_BUILD_TIME
-  value: "false"
-- key: SECRET_KEY
-  scope: RUN_AND_BUILD_TIME
-  value: ${SECRET_KEY}
-
 features:
 - buildpack-stack=ubuntu-22
 

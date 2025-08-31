@@ -37,6 +37,7 @@ REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
 # Debug Redis URL (remove this in production)
 print(f"REDIS_URL: {REDIS_URL}")
+print(f"SECRET_KEY: {SECRET_KEY}")
 
 # Validate Redis URL format
 if REDIS_URL and not REDIS_URL.startswith(('redis://', 'rediss://')):

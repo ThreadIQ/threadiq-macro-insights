@@ -140,6 +140,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+# Debug static files configuration
+print(f"STATIC_URL: {STATIC_URL}")
+print(f"STATIC_ROOT: {STATIC_ROOT}")
+print(f"STATICFILES_DIRS: {STATICFILES_DIRS}")
+print(f"DEBUG: {DEBUG}")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

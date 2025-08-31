@@ -17,7 +17,6 @@ envs:
   value: "threadiq"
 - key: PGPASSWORD
   scope: RUN_AND_BUILD_TIME
-  type: SECRET
   value: ${PGPASSWORD}
 - key: REDIS_URL
   scope: RUN_AND_BUILD_TIME
@@ -27,7 +26,6 @@ envs:
   value: "false"
 - key: SECRET_KEY
   scope: RUN_AND_BUILD_TIME
-  type: SECRET
   value: ${SECRET_KEY}
 - key: CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP
   scope: RUN_AND_BUILD_TIME

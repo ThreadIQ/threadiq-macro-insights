@@ -51,12 +51,3 @@ jobs:
             web=${{ env.IMAGE }}:main
             worker=${{ env.IMAGE }}:main
             beat=${{ env.IMAGE }}:main
-          envs: |
-            PGPASSWORD=${{ secrets.PGPASSWORD }}
-            SECRET_KEY=${{ secrets.SECRET_KEY }}
-            REDIS_URL=${{ secrets.REDIS_URL }}
-            PGHOST=db-postgresql-nyc3-93472-do-user-22402719-0.j.db.ondigitalocean.com
-            PGPORT=25060
-            PGDATABASE=threadiq
-            PGUSER=threadiq
-            DEBUG=false

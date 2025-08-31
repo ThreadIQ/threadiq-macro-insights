@@ -42,6 +42,14 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Render DO App Spec from template
+        run: |
+          mkdir -p .do
+          export PGPASSWORD='${{ secrets.PGPASSWORD }}'
+          export REDIS_URL='${{ secrets.REDIS_URL }}'
+          export SECRET_KEY='${{ secrets.SECRET_KEY }}'
+          envsubst < .do/app.tmpl.yaml > .do/app.yaml
+
       - name: Deploy to DigitalOcean App Platform
         uses: digitalocean/app_action/deploy@v2
         with:
@@ -51,3 +59,4 @@ jobs:
             web=${{ env.IMAGE }}:main
             worker=${{ env.IMAGE }}:main
             beat=${{ env.IMAGE }}:main
+          spec: .do/app.yaml

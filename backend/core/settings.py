@@ -2,7 +2,14 @@ import os
 from pathlib import Path
 from datetime import timedelta
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# In Docker, we're working from /app, so BASE_DIR should be /app/backend
+# In local development, it should be the backend directory
+if os.path.exists('/app'):
+    # Running in Docker
+    BASE_DIR = Path('/app/backend')
+else:
+    # Running locally
+    BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
 DEBUG = os.getenv("DEBUG", "true").lower() == "true"
@@ -147,6 +154,7 @@ print(f"STATICFILES_DIRS: {STATICFILES_DIRS}")
 print(f"DEBUG: {DEBUG}")
 print(f"BASE_DIR: {BASE_DIR}")
 print(f"STATIC_ROOT absolute: {os.path.abspath(STATIC_ROOT)}")
+print(f"Current working directory: {os.getcwd()}")
 
 # Verify static files directory exists and has content
 static_root_path = os.path.abspath(STATIC_ROOT)
@@ -156,6 +164,12 @@ if os.path.exists(static_root_path):
     admin_path = os.path.join(static_root_path, 'admin')
     if os.path.exists(admin_path):
         print(f"Admin static files: {os.listdir(admin_path)}")
+else:
+    print(f"Static root path does not exist: {static_root_path}")
+    # Try to list the parent directory
+    parent_dir = os.path.dirname(static_root_path)
+    if os.path.exists(parent_dir):
+        print(f"Parent directory contents: {os.listdir(parent_dir)}")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

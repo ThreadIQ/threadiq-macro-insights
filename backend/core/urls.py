@@ -23,13 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-# Serve static files in development and production
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    print(f"DEBUG mode: Added static files serving for {settings.STATIC_URL} from {settings.STATIC_ROOT}")
-else:
-    # In production, serve static files directly
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    print(f"PRODUCTION mode: Added static files serving for {settings.STATIC_URL} from {settings.STATIC_ROOT}")
+# Always serve static files (both development and production)
+# Note: In production, this should ideally be handled by a web server like nginx
+# But for now, we'll let Django serve them to get things working
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+print(f"Added static files serving for {settings.STATIC_URL} from {settings.STATIC_ROOT}")
 
 print(f"Final URL patterns: {urlpatterns}")

@@ -24,7 +24,10 @@ RUN chown -R appuser:appuser /app/backend/staticfiles /app/backend/static
 # Switch to non-root user
 USER appuser
 
-# entrypoint runs migrate and collectstatic then execs CMD
+# Collect static files during build (since DigitalOcean uses pre-built images)
+RUN cd /app/backend && python manage.py collectstatic --noinput
+
+# entrypoint runs migrate then execs CMD
 RUN chmod +x /app/docker/entrypoint.sh
 
 ENTRYPOINT ["/app/docker/entrypoint.sh"]

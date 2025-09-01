@@ -26,6 +26,10 @@ urlpatterns = [
 # Serve static files in development and production
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    print(f"DEBUG mode: Added static files serving for {settings.STATIC_URL} from {settings.STATIC_ROOT}")
 else:
     # In production, serve static files directly
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    print(f"PRODUCTION mode: Added static files serving for {settings.STATIC_URL} from {settings.STATIC_ROOT}")
+
+print(f"Final URL patterns: {urlpatterns}")

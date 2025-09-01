@@ -145,6 +145,8 @@ print(f"STATIC_URL: {STATIC_URL}")
 print(f"STATIC_ROOT: {STATIC_ROOT}")
 print(f"STATICFILES_DIRS: {STATICFILES_DIRS}")
 print(f"DEBUG: {DEBUG}")
+print(f"BASE_DIR: {BASE_DIR}")
+print(f"STATIC_ROOT absolute: {os.path.abspath(STATIC_ROOT)}")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

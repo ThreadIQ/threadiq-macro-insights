@@ -171,6 +171,14 @@ else:
     if os.path.exists(parent_dir):
         print(f"Parent directory contents: {os.listdir(parent_dir)}")
 
+# Additional debugging for collectstatic
+print(f"=== COLLECTSTATIC DEBUG ===")
+print(f"os.path.exists('/app/backend/staticfiles'): {os.path.exists('/app/backend/staticfiles')}")
+print(f"os.path.exists('/app/backend'): {os.path.exists('/app/backend')}")
+print(f"os.listdir('/app/backend'): {os.listdir('/app/backend')}")
+if os.path.exists('/app/backend/staticfiles'):
+    print(f"os.listdir('/app/backend/staticfiles'): {os.listdir('/app/backend/staticfiles')}")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

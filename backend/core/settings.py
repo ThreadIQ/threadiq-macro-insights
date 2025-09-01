@@ -156,28 +156,8 @@ print(f"BASE_DIR: {BASE_DIR}")
 print(f"STATIC_ROOT absolute: {os.path.abspath(STATIC_ROOT)}")
 print(f"Current working directory: {os.getcwd()}")
 
-# Verify static files directory exists and has content
-static_root_path = os.path.abspath(STATIC_ROOT)
-print(f"Static root path exists: {os.path.exists(static_root_path)}")
-if os.path.exists(static_root_path):
-    print(f"Static root contents: {os.listdir(static_root_path)}")
-    admin_path = os.path.join(static_root_path, 'admin')
-    if os.path.exists(admin_path):
-        print(f"Admin static files: {os.listdir(admin_path)}")
-else:
-    print(f"Static root path does not exist: {static_root_path}")
-    # Try to list the parent directory
-    parent_dir = os.path.dirname(static_root_path)
-    if os.path.exists(parent_dir):
-        print(f"Parent directory contents: {os.listdir(parent_dir)}")
-
-# Additional debugging for collectstatic
-print(f"=== COLLECTSTATIC DEBUG ===")
-print(f"os.path.exists('/app/backend/staticfiles'): {os.path.exists('/app/backend/staticfiles')}")
-print(f"os.path.exists('/app/backend'): {os.path.exists('/app/backend')}")
-print(f"os.listdir('/app/backend'): {os.listdir('/app/backend')}")
-if os.path.exists('/app/backend/staticfiles'):
-    print(f"os.listdir('/app/backend/staticfiles'): {os.listdir('/app/backend/staticfiles')}")
+# Note: Static files directory contents will be checked after collectstatic runs
+print(f"Static files will be collected to: {STATIC_ROOT}")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

@@ -27,6 +27,9 @@ USER appuser
 # Collect static files during build (since DigitalOcean uses pre-built images)
 RUN cd /app/backend && python manage.py collectstatic --noinput --verbosity=2
 
+# Verify static files were collected correctly
+RUN ls -la /app/backend/staticfiles/ && echo "=== Admin files ===" && ls -la /app/backend/staticfiles/admin/ || echo "Admin directory not found"
+
 # entrypoint runs migrate then execs CMD
 RUN chmod +x /app/docker/entrypoint.sh
 

@@ -6,6 +6,4 @@ app = Celery("threadiq")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
-# Debug: Print broker URL to see what Celery is using
-print(f"Celery Broker URL: {app.conf.broker_url}")
-print(f"Celery Result Backend: {app.conf.result_backend}")
+

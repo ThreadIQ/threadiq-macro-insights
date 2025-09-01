@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.static import serve
 from django.urls import re_path
 
 urlpatterns = [
@@ -30,27 +29,46 @@ urlpatterns = [
 # But for now, we'll let Django serve them to get things working
 if not settings.DEBUG:
     # In production, we need to serve static files ourselves
-    # Create a custom view that logs static file requests
+    # Create a custom view that serves static files without ASGI warnings
     def static_serve_with_logging(request, path):
-        print(f"Static file request: /static/{path}")
-        print(f"Looking for file at: {settings.STATIC_ROOT}/{path}")
         import os
+        from django.http import FileResponse, Http404
+        from django.conf import settings
+        
         full_path = os.path.join(settings.STATIC_ROOT, path)
-        print(f"Full path: {full_path}")
-        print(f"File exists: {os.path.exists(full_path)}")
-        if os.path.exists(full_path):
-            print(f"File readable: {os.access(full_path, os.R_OK)}")
-        return serve(request, path, document_root=settings.STATIC_ROOT)
+        
+        if not os.path.exists(full_path):
+            raise Http404(f"Static file not found: {path}")
+        
+        # Use FileResponse instead of serve() to avoid ASGI warnings
+        response = FileResponse(open(full_path, 'rb'))
+        
+        # Set appropriate content type based on file extension
+        if path.endswith('.css'):
+            response['Content-Type'] = 'text/css'
+        elif path.endswith('.js'):
+            response['Content-Type'] = 'application/javascript'
+        elif path.endswith('.png'):
+            response['Content-Type'] = 'image/png'
+        elif path.endswith('.jpg') or path.endswith('.jpeg'):
+            response['Content-Type'] = 'image/jpeg'
+        elif path.endswith('.svg'):
+            response['Content-Type'] = 'image/svg+xml'
+        elif path.endswith('.woff'):
+            response['Content-Type'] = 'font/woff'
+        elif path.endswith('.woff2'):
+            response['Content-Type'] = 'font/woff2'
+        elif path.endswith('.ttf'):
+            response['Content-Type'] = 'font/ttf'
+        elif path.endswith('.eot'):
+            response['Content-Type'] = 'font/eot'
+        
+        return response
     
     # Add static file serving patterns
     urlpatterns += [
         re_path(r'^static/(?P<path>.*)$', static_serve_with_logging, name='static'),
     ]
-    print(f"Added production static file serving for {settings.STATIC_URL} from {settings.STATIC_ROOT}")
 else:
     # In development, use Django's static helper
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    print(f"Added development static file serving for {settings.STATIC_URL} from {settings.STATIC_ROOT}")
-
-print(f"Final URL patterns: {urlpatterns}")
-print(f"Static file serving enabled: {any('static' in str(pattern) for pattern in urlpatterns)}")

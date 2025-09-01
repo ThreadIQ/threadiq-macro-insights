@@ -23,7 +23,7 @@ envs:
   value: ${REDIS_URL}
 - key: DEBUG
   scope: RUN_AND_BUILD_TIME
-  value: "false"
+  value: FALSE
 - key: SECRET_KEY
   scope: RUN_AND_BUILD_TIME
   value: ${SECRET_KEY}

@@ -18,8 +18,8 @@ COPY . /app
 RUN chown -R appuser:appuser /app
 
 # Create static files directory
-RUN mkdir -p /app/backend/staticfiles /app/backend/static
-RUN chown -R appuser:appuser /app/backend/staticfiles /app/backend/static
+RUN mkdir -p /app/backend/staticfiles
+RUN chown -R appuser:appuser /app/backend/staticfiles
 
 # Switch to non-root user
 USER appuser

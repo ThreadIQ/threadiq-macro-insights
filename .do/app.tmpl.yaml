@@ -33,7 +33,12 @@ envs:
 - key: CELERY_BROKER_CONNECTION_MAX_RETRIES
   scope: RUN_AND_BUILD_TIME
   value: "10"
-
+- key: WEAVIATE_URL
+  scope: RUN_AND_BUILD_TIME
+  value: "6pky4wsqgyuvlykdpbqdw.c0.us-west3.gcp.weaviate.cloud" 
+- key: WEAVIATE_API_KEY
+  scope: RUN_AND_BUILD_TIME
+  value: ${WEAVIATE_API_KEY}  
 features:
 - buildpack-stack=ubuntu-22
 

@@ -48,6 +48,7 @@ jobs:
           export PGPASSWORD='${{ secrets.PGPASSWORD }}'
           export REDIS_URL='${{ secrets.REDIS_URL }}'
           export SECRET_KEY='${{ secrets.SECRET_KEY }}'
+          export WEAVIATE_API_KEY='${{ secrets.WEAVIATE_API_KEY }}'
           envsubst < .do/app.tmpl.yaml > .do/app.yaml
 
       - name: Deploy to DigitalOcean App Platform

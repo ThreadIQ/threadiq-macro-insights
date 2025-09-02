@@ -119,6 +119,7 @@ Sensitive configuration is managed through GitHub Secrets:
 - `PGPASSWORD`: PostgreSQL password
 - `REDIS_URL`: Redis connection string
 - `DIGITALOCEAN_ACCESS_TOKEN`: DO API access token
+- `WEAVIATE_API_KEY`: Weaviate API key
 
 ### Deployment Commands
 
@@ -130,6 +131,38 @@ git push origin main  # Triggers automatic deployment
 doctl apps list
 doctl apps get <app-id>
 ```
+
+### Creating Admin Users in Production
+
+After deployment, create your first admin user using the custom management command:
+
+```bash
+# Connect to the web component
+doctl apps ssh <app-id> web
+
+# Create admin user
+python backend/manage.py create_admin \
+  --username admin \
+  --email admin@example.com \
+  --password your-secure-password \
+  --first-name Admin \
+  --last-name User
+```
+
+**Alternative methods:**
+
+1. **Via Django shell:**
+   ```bash
+   python backend/manage.py shell
+   from django.contrib.auth import get_user_model
+   User = get_user_model()
+   User.objects.create_superuser('admin', 'admin@example.com', 'password')
+   ```
+
+2. **Via Django createsuperuser (interactive):**
+   ```bash
+   python backend/manage.py createsuperuser
+   ```
 
 ## 🔧 Configuration
 

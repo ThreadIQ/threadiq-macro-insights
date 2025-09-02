@@ -86,6 +86,46 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 
+# CSRF Configuration for production
+if not DEBUG:
+    # Get the domain from environment or use a default
+    CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if not CSRF_TRUSTED_ORIGINS or CSRF_TRUSTED_ORIGINS == [""]:
+        # Default to common production domains
+        CSRF_TRUSTED_ORIGINS = [
+            "https://*.ondigitalocean.app",
+            "https://*.digitaloceanspaces.com",
+        ]
+    
+    # Add your specific domain if provided
+    specific_domain = os.getenv("CSRF_DOMAIN")
+    if specific_domain:
+        CSRF_TRUSTED_ORIGINS.append(f"https://{specific_domain}")
+        CSRF_TRUSTED_ORIGINS.append(f"https://*.{specific_domain}")
+    
+    # Debug CSRF configuration
+    print(f"CSRF_TRUSTED_ORIGINS: {CSRF_TRUSTED_ORIGINS}")
+    
+    # CSRF cookie settings for HTTPS
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    
+    # Session cookie settings for HTTPS
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    
+    # Security headers
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+else:
+    # Development CSRF settings
+    CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

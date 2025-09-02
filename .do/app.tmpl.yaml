@@ -38,7 +38,15 @@ envs:
   value: "6pky4wsqgyuvlykdpbqdw.c0.us-west3.gcp.weaviate.cloud" 
 - key: WEAVIATE_API_KEY
   scope: RUN_AND_BUILD_TIME
-  value: ${WEAVIATE_API_KEY}  
+  value: ${WEAVIATE_API_KEY}
+- key: CSRF_DOMAIN
+  scope: RUN_AND_BUILD_TIME
+  value: "threadiq-macro-insights-prod-gcwh3.ondigitalocean.app"
+- key: CSRF_TRUSTED_ORIGINS
+  scope: RUN_AND_BUILD_TIME
+  value: "https://threadiq-macro-insights-prod-gcwh3.ondigitalocean.app"
+
+
 features:
 - buildpack-stack=ubuntu-22
 
